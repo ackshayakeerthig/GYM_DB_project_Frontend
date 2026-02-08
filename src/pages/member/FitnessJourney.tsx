@@ -171,37 +171,53 @@ export function FitnessJourney() {
           </Card>
 
           <Card title="Current Status">
-            {latestHealth ? (
-                <div className="space-y-4">
-                  <div className="flex justify-between items-center bg-slate-800/50 p-4 rounded-lg">
-                    <div className="flex items-center gap-3">
-                      <Weight className="text-emerald-500" size={24} />
-                      <span className="text-slate-300">Weight</span>
-                    </div>
-                    <span className="text-white font-bold text-2xl">{latestHealth.details.current_weight} <small className="text-sm font-normal text-slate-500">kg</small></span>
-                  </div>
-                  
-                  <div className="grid grid-cols-2 gap-3">
-                    <div className="bg-slate-800/50 p-3 rounded text-center border border-slate-700">
-                      <p className="text-xs text-slate-500 uppercase font-bold">Body Fat</p>
-                      <p className="text-emerald-400 font-bold text-xl">{latestHealth.details.body_composition.fat}</p>
-                    </div>
-                    <div className="bg-slate-800/50 p-3 rounded text-center border border-slate-700">
-                      <p className="text-xs text-slate-500 uppercase font-bold">Muscle</p>
-                      <p className="text-blue-400 font-bold text-xl">{latestHealth.details.body_composition.muscle}</p>
-                    </div>
-                  </div>
+  {latestHealth ? (
+    <div className="space-y-4">
+      <div className="flex justify-between items-center bg-slate-800/50 p-4 rounded-lg">
+        <div className="flex items-center gap-3">
+          <Weight className="text-emerald-500" size={24} />
+          <span className="text-slate-300">Weight</span>
+        </div>
+        <span className="text-white font-bold text-2xl">
+          {latestHealth.details?.current_weight ?? '--'}{' '}
+          <small className="text-sm font-normal text-slate-500">kg</small>
+        </span>
+      </div>
+      
+      <div className="grid grid-cols-2 gap-3">
+        <div className="bg-slate-800/50 p-3 rounded text-center border border-slate-700">
+          <p className="text-xs text-slate-500 uppercase font-bold">Body Fat</p>
+          <p className="text-emerald-400 font-bold text-xl">
+            {/* Added Optional Chaining below */}
+            {latestHealth.details?.body_composition?.fat ?? 'N/A'}
+          </p>
+        </div>
+        <div className="bg-slate-800/50 p-3 rounded text-center border border-slate-700">
+          <p className="text-xs text-slate-500 uppercase font-bold">Muscle</p>
+          <p className="text-blue-400 font-bold text-xl">
+            {/* Added Optional Chaining below */}
+            {latestHealth.details?.body_composition?.muscle ?? 'N/A'}
+          </p>
+        </div>
+      </div>
 
-                  <div className="p-4 bg-amber-500/10 border border-amber-500/20 rounded-lg">
-                    <div className="flex items-center gap-2 mb-2 text-amber-500">
-                      <Info size={16} />
-                      <span className="text-xs font-bold uppercase">Coach's Note</span>
-                    </div>
-                    <p className="text-sm text-slate-300 italic">"{latestHealth.details.description}"</p>
-                  </div>
-                </div>
-            ) : <p className="text-slate-500">No health logs found.</p>}
-          </Card>
+      <div className="p-4 bg-amber-500/10 border border-amber-500/20 rounded-lg">
+        <div className="flex items-center gap-2 mb-2 text-amber-500">
+          <Info size={16} />
+          <span className="text-xs font-bold uppercase">Coach's Note</span>
+        </div>
+        <p className="text-sm text-slate-300 italic">
+          "{latestHealth.details?.description ?? 'No notes for this session.'}"
+        </p>
+      </div>
+    </div>
+  ) : (
+    <div className="flex flex-col items-center justify-center h-full py-10 text-center">
+        <Target className="text-slate-600 mb-2" size={40} />
+        <p className="text-slate-500">No health logs found yet.</p>
+    </div>
+  )}
+</Card>
         </div>
 
         <div className="space-y-4">
