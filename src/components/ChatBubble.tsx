@@ -4,6 +4,7 @@ import { ChatMessage } from '../types';
 import { useAuth } from '../context/AuthContext';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { api } from '../services/api';
 
 export function ChatBubble() {
   const { user } = useAuth();
@@ -55,7 +56,7 @@ export function ChatBubble() {
     try {
       // Note: We use fetch here, but ensure your interceptor logic 
       // from api.ts is applied if you switch back to axiosInstance.
-      const response = await fetch("http://localhost:8000/api/chat", {
+      const response = await fetch("https://gym-database-management.onrender.com/api/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -71,6 +72,16 @@ export function ChatBubble() {
 
       if (!response.ok) throw new Error("Failed to reach AI");
 
+      // Force the ID to a number and ensure it's not undefined
+
+
+// const response = await api.chat.sendMessage(
+//   currentInput, 
+//   Number(user?.id) || 0, 
+//   user?.role || 'Member'
+// );
+
+      // const data = await api.chat.sendMessage(currentInput, user?.id, user?.role);
       const data = await response.json();
 
       const assistantMessage: ChatMessage = {
